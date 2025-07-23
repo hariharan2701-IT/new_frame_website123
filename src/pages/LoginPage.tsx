@@ -99,6 +99,18 @@ export const LoginPage: React.FC = () => {
                     </button>
                   </p>
                 )}
+                {error.includes('User already registered') && !isLogin && (
+                  <p className="text-red-700 text-xs">
+                    Account already exists! 
+                    <button
+                      type="button"
+                      onClick={() => setIsLogin(true)}
+                      className="ml-1 underline hover:no-underline"
+                    >
+                      Sign in instead
+                    </button>
+                  </p>
+                )}
               </div>
             )}
 
