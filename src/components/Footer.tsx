@@ -11,12 +11,12 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">F</span>
+                <span className="text-white font-bold text-sm">S</span>
               </div>
-              <span className="text-xl font-bold">FrameCraft</span>
+              <span className="text-xl font-bold">Snapzone Frames</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Creating beautiful custom frames for your most precious memories. Handcrafted with premium materials and attention to detail.
+              Premium photo frames in Coimbatore with matt and glassy finish options. Fast delivery and quality guaranteed.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-amber-500 transition-colors">
@@ -38,33 +38,27 @@ export const Footer: React.FC = () => {
               <Link to="/" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
                 Home
               </Link>
-              <Link to="/products" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Products
-              </Link>
-              <Link to="/about" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                About Us
-              </Link>
-              <Link to="/contact" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Contact
+              <Link to="/frames" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
+                Frames
               </Link>
             </div>
           </div>
 
-          {/* Categories */}
+          {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Categories</h3>
+            <h3 className="text-lg font-semibold">Services</h3>
             <div className="space-y-2">
-              <Link to="/products?category=wood" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Wood Frames
+              <span className="block text-gray-400 text-sm">
+                Matt Finish Frames
               </Link>
-              <Link to="/products?category=canvas" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Canvas Frames
+              <span className="block text-gray-400 text-sm">
+                Glassy Finish Frames
               </Link>
-              <Link to="/products?category=glass" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Glass Frames
+              <span className="block text-gray-400 text-sm">
+                Custom Sizes Available
               </Link>
-              <Link to="/products?category=metal" className="block text-gray-400 hover:text-amber-500 transition-colors text-sm">
-                Metal Frames
+              <span className="block text-gray-400 text-sm">
+                Fast Delivery in Coimbatore
               </Link>
             </div>
           </div>
@@ -75,15 +69,15 @@ export const Footer: React.FC = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <MapPin className="w-4 h-4 text-amber-500" />
-                <span className="text-gray-400 text-sm">123 Craft Street, Art District</span>
+                <span className="text-gray-400 text-sm">Coimbatore, Tamil Nadu</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-amber-500" />
-                <span className="text-gray-400 text-sm">+1 (555) 123-4567</span>
+                <span className="text-gray-400 text-sm">+91 77085 54879</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-amber-500" />
-                <span className="text-gray-400 text-sm">hello@framecraft.com</span>
+                <span className="text-gray-400 text-sm">snapzoneframes@gmail.com</span>
               </div>
             </div>
           </div>
@@ -92,7 +86,7 @@ export const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2025 FrameCraft. All rights reserved.
+              © 2025 Snapzone Frames Coimbatore. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link to="/privacy" className="text-gray-400 hover:text-amber-500 text-sm transition-colors">

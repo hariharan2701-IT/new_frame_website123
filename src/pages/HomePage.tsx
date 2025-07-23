@@ -1,191 +1,126 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Star, Truck, Shield, Headphones } from 'lucide-react'
+import { ArrowRight, Star, Truck, Shield, Headphones, ShoppingCart } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { useCart } from '../hooks/useCart'
+import { useAuth } from '../hooks/useAuth'
 import type { Database } from '../lib/supabase'
 
 type Product = Database['public']['Tables']['products']['Row']
 
 export const HomePage: React.FC = () => {
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const { addToCart } = useCart()
+  const { user } = useAuth()
 
   useEffect(() => {
-    fetchFeaturedProducts()
+    if (user) {
+      fetchProducts()
+    }
   }, [])
 
-  const fetchFeaturedProducts = async () => {
+  const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('featured', true)
-        .limit(6)
+        .gt('stock_quantity', 0)
+        .order('created_at', { ascending: false })
 
       if (error) throw error
-      setFeaturedProducts(data || [])
+      setProducts(data || [])
     } catch (error) {
-      console.error('Error fetching featured products:', error)
+      console.error('Error fetching products:', error)
     } finally {
       setLoading(false)
     }
   }
 
-  const categories = [
-    {
-      name: 'Wood Frames',
-      description: 'Classic elegance with natural wood textures',
-      image: 'https://images.pexels.com/photos/1153213/pexels-photo-1153213.jpeg?auto=compress&cs=tinysrgb&w=600',
-      link: '/products?category=wood',
-      color: 'from-amber-600 to-amber-800'
-    },
-    {
-      name: 'Canvas Frames',
-      description: 'Modern style for contemporary art',
-      image: 'https://images.pexels.com/photos/1047540/pexels-photo-1047540.jpeg?auto=compress&cs=tinysrgb&w=600',
-      link: '/products?category=canvas',
-      color: 'from-gray-600 to-gray-800'
-    },
-    {
-      name: 'Glass Frames',
-      description: 'Sleek and minimalist design',
-      image: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=600',
-      link: '/products?category=glass',
-      color: 'from-blue-600 to-blue-800'
-    }
-  ]
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image_url: product.image_url,
+      material: product.material,
+      size: product.size
+    })
+  }
 
   const features = [
     {
       icon: Truck,
-      title: 'Free Shipping',
-      description: 'Free delivery on orders over $50'
+      title: 'Fast Delivery',
+      description: 'Free delivery within Coimbatore'
     },
     {
       icon: Shield,
       title: 'Quality Guarantee',
-      description: '30-day money back guarantee'
+      description: 'Premium quality frames guaranteed'
     },
     {
       icon: Headphones,
-      title: '24/7 Support',
-      description: 'Round the clock customer service'
+      title: 'Customer Support',
+      description: 'Dedicated support for all orders'
     }
   ]
 
+  if (!user) {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-amber-50 to-orange-50 py-20 lg:py-32">
+      <div className="min-h-screen bg-gradient-to-r from-amber-50 to-orange-50 flex items-center justify-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Frame Your
-                <span className="text-amber-600 block">Precious Memories</span>
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-3 mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-2xl">S</span>
+              </div>
+              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900">
+                Snapzone Frames
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Discover our handcrafted collection of premium frames made from the finest wood, canvas, and glass materials. Perfect for your artwork, photos, and cherished moments.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/products"
-                  className="bg-amber-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-amber-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center group"
-                >
-                  Shop Collection
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  to="/about"
-                  className="border-2 border-amber-600 text-amber-600 px-8 py-4 rounded-lg font-semibold hover:bg-amber-600 hover:text-white transition-all duration-300 flex items-center justify-center"
-                >
-                  Learn More
-                </Link>
-              </div>
             </div>
-            <div className="relative">
-              <img
-                src="https://images.pexels.com/photos/1194420/pexels-photo-1194420.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Beautiful custom frames"
-                className="rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">4.9/5</span>
-                </div>
-                <p className="text-sm text-gray-600 mt-1">Over 10,000+ happy customers</p>
-              </div>
-            </div>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Premium photo frames in Coimbatore with matt and glassy finish options. 
+              Please login to view our available frames and place orders.
+            </p>
+            <Link
+              to="/login"
+              className="bg-amber-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-amber-700 transition-all duration-300 transform hover:scale-105 inline-flex items-center"
+            >
+              Login to Shop
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <section className="bg-white py-8 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Available Frames
+            </h1>
+            <p className="text-gray-600">
+              Choose from our collection of premium frames
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-20 bg-white">
+      {/* Products Grid */}
+      <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Explore our carefully curated collection of frames, each designed to complement your unique style and space.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {categories.map((category, index) => (
-              <Link
-                key={index}
-                to={category.link}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
-              >
-                <div className="aspect-w-16 aspect-h-12 relative">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-70 transition-opacity`} />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
-                  <p className="text-sm opacity-90 group-hover:opacity-100 transition-opacity">
-                    {category.description}
-                  </p>
-                  <div className="mt-4 flex items-center text-sm font-medium">
-                    Explore Collection
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Featured Products
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Handpicked favorites that showcase the finest in craftsmanship and design.
-            </p>
-          </div>
-
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-lg shadow-lg overflow-hidden animate-pulse">
                   <div className="w-full h-64 bg-gray-300" />
-                  <div className="p-6 space-y-4">
+                  <div className="p-4 space-y-3">
                     <div className="h-4 bg-gray-300 rounded" />
                     <div className="h-4 bg-gray-300 rounded w-2/3" />
                     <div className="h-6 bg-gray-300 rounded w-1/3" />
@@ -193,13 +128,17 @@ export const HomePage: React.FC = () => {
                 </div>
               ))}
             </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-xl text-gray-600 mb-4">No frames available at the moment</p>
+              <p className="text-gray-500">Please check back later for new arrivals</p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map((product) => (
-                <Link
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <div
                   key={product.id}
-                  to={`/products/${product.id}`}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="relative overflow-hidden">
                     <img
@@ -207,45 +146,43 @@ export const HomePage: React.FC = () => {
                       alt={product.name}
                       className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute top-4 right-4 bg-amber-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                      Featured
+                    <div className="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      In Stock: {product.stock_quantity}
                     </div>
                   </div>
-                  <div className="p-6 space-y-3">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-amber-600 transition-colors">
+                  
+                  <div className="p-4 space-y-3">
+                    <h3 className="text-lg font-semibold text-gray-900">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-gray-600 line-clamp-2">
-                      {product.description}
-                    </p>
-                    <div className="flex justify-between items-center">
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-600">Size: {product.size}</p>
+                      <p className="text-sm text-gray-600">Finish: {product.material}</p>
+                      <p className="text-sm text-gray-600">Colors: {product.category}</p>
+                    </div>
+                    
+                    <div className="flex justify-between items-center pt-2">
                       <span className="text-2xl font-bold text-amber-600">
-                        ${product.price}
+                        ₹{product.price}
                       </span>
-                      <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        {product.material}
-                      </span>
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors flex items-center space-x-2 group/btn"
+                      >
+                        <ShoppingCart className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                        <span>Add to Cart</span>
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           )}
-
-          <div className="text-center mt-12">
-            <Link
-              to="/products"
-              className="inline-flex items-center bg-amber-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-amber-700 transition-all duration-300 transform hover:scale-105 group"
-            >
-              View All Products
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
@@ -265,25 +202,6 @@ export const HomePage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-amber-600 to-orange-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Ready to Frame Your Memories?
-          </h2>
-          <p className="text-xl text-amber-100 mb-8 leading-relaxed">
-            Join thousands of satisfied customers who trust FrameCraft for their custom framing needs.
-          </p>
-          <Link
-            to="/products"
-            className="inline-flex items-center bg-white text-amber-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 group"
-          >
-            Start Shopping
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Link>
         </div>
       </section>
     </div>

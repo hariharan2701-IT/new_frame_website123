@@ -23,9 +23,9 @@ export const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">F</span>
+              <span className="text-white font-bold text-sm">S</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">FrameCraft</span>
+            <span className="text-xl font-bold text-gray-900">Snapzone Frames</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -33,14 +33,8 @@ export const Header: React.FC = () => {
             <Link to="/" className="text-gray-700 hover:text-amber-600 transition-colors">
               Home
             </Link>
-            <Link to="/products" className="text-gray-700 hover:text-amber-600 transition-colors">
-              Products
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-amber-600 transition-colors">
-              About
-            </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-amber-600 transition-colors">
-              Contact
+            <Link to="/frames" className="text-gray-700 hover:text-amber-600 transition-colors">
+              Frames
             </Link>
             {isAdmin && (
               <Link to="/admin" className="text-amber-600 hover:text-amber-700 font-medium transition-colors">
@@ -115,25 +109,11 @@ export const Header: React.FC = () => {
                 Home
               </Link>
               <Link
-                to="/products"
+                to="/frames"
                 className="text-gray-700 hover:text-amber-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Products
-              </Link>
-              <Link
-                to="/about"
-                className="text-gray-700 hover:text-amber-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/contact"
-                className="text-gray-700 hover:text-amber-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
+                Frames
               </Link>
               {isAdmin && (
                 <Link
