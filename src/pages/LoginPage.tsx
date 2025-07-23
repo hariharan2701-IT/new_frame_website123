@@ -69,17 +69,36 @@ export const LoginPage: React.FC = () => {
           </h2>
           <p className="mt-2 text-gray-600">
             {isLogin
-              ? 'Sign in to your account to continue shopping'
-              : 'Join FrameCraft and start building your collection'
+              ? 'Sign in to your account to continue'
+              : 'Create your admin account to get started'
             }
           </p>
+          {!isLogin && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+              <p className="text-blue-800 text-sm">
+                <strong>Admin Setup:</strong> Use email "admin123@snapzone" and password "7708554879" to create the admin account.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-800 text-sm">{error}</p>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 space-y-2">
+                <p className="text-red-800 text-sm font-medium">{error}</p>
+                {error.includes('Invalid login credentials') && isLogin && (
+                  <p className="text-red-700 text-xs">
+                    Account doesn't exist yet? 
+                    <button
+                      type="button"
+                      onClick={() => setIsLogin(false)}
+                      className="ml-1 underline hover:no-underline"
+                    >
+                      Create account first
+                    </button>
+                  </p>
+                )}
               </div>
             )}
 
