@@ -35,7 +35,7 @@ export const AdminPage: React.FC = () => {
     }
     
     // Check if user is admin
-    if (user.email !== 'hariharan27012004@gmail.com') {
+    if (user.email !== 'admin123@snapzone') {
       navigate('/')
       return
     }
@@ -130,7 +130,7 @@ export const AdminPage: React.FC = () => {
     }
   }
 
-  if (!user || user.email !== 'hariharan27012004@gmail.com') {
+  if (!user || user.email !== 'admin123@snapzone') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
