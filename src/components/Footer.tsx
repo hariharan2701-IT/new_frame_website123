@@ -50,16 +50,16 @@ export const Footer: React.FC = () => {
             <div className="space-y-2">
               <span className="block text-gray-400 text-sm">
                 Matt Finish Frames
-              </Link>
+              </span>
               <span className="block text-gray-400 text-sm">
                 Glassy Finish Frames
-              </Link>
+              </span>
               <span className="block text-gray-400 text-sm">
                 Custom Sizes Available
-              </Link>
+              </span>
               <span className="block text-gray-400 text-sm">
                 Fast Delivery in Coimbatore
-              </Link>
+              </span>
             </div>
           </div>
 
