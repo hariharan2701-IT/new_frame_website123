@@ -34,8 +34,8 @@ export const AdminPage: React.FC = () => {
       return
     }
     
-    // Check if user is admin
-    if (user.email !== 'admin123@snapzone') {
+    // Check if user is admin based on email
+    if (user.email !== '7708554879@gmail.com') {
       navigate('/')
       return
     }
@@ -131,6 +131,7 @@ export const AdminPage: React.FC = () => {
   }
 
   if (!user || user.email !== 'admin123@snapzone') {
+  if (!user || user.email !== '7708554879@gmail.com') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -199,7 +200,7 @@ export const AdminPage: React.FC = () => {
                     <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Name
+                          Frame Name *
                         </label>
                         <input
                           type="text"
@@ -213,7 +214,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Picture URL
+                          Frame Picture URL *
                         </label>
                         <input
                           type="url"
@@ -227,7 +228,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Size
+                          Frame Size *
                         </label>
                         <input
                           type="text"
@@ -241,7 +242,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Colors Available
+                          Colors Available *
                         </label>
                         <input
                           type="text"
@@ -255,7 +256,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Price (₹)
+                          Price (₹) *
                         </label>
                         <input
                           type="number"
@@ -271,7 +272,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Finish Type
+                          Finish Type *
                         </label>
                         <select
                           required
@@ -286,7 +287,7 @@ export const AdminPage: React.FC = () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Stock Quantity
+                          Stock Quantity *
                         </label>
                         <input
                           type="number"
@@ -301,7 +302,7 @@ export const AdminPage: React.FC = () => {
 
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Description
+                          Description *
                         </label>
                         <textarea
                           required
@@ -333,7 +334,20 @@ export const AdminPage: React.FC = () => {
                 )}
 
                 {/* Products List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No products yet</h3>
+                    <p className="text-gray-600 mb-6">Start by adding your first frame product</p>
+                    <button
+                      onClick={() => setShowAddProduct(true)}
+                      className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
+                    >
+                      Add First Product
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {products.map((product) => (
                     <div key={product.id} className="bg-white border rounded-lg overflow-hidden">
                       <img
@@ -361,7 +375,8 @@ export const AdminPage: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                </div>
+                  </div>
+                )}</parameter>
               </div>
             )}
 

@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
             </Link>
             {isAdmin && (
               <Link to="/admin" className="text-amber-600 hover:text-amber-700 font-medium transition-colors">
-                Admin
+                Admin Portal
               </Link>
             )}
           </nav>

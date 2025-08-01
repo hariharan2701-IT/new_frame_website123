@@ -15,9 +15,7 @@ export const HomePage: React.FC = () => {
   const { user } = useAuth()
 
   useEffect(() => {
-    if (user) {
-      fetchProducts()
-    }
+    fetchProducts()
   }, [])
 
   const fetchProducts = async () => {

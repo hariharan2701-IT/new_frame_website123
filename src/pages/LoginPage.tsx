@@ -76,7 +76,7 @@ export const LoginPage: React.FC = () => {
           {!isLogin && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
               <p className="text-blue-800 text-sm">
-                <strong>Admin Setup:</strong> Use email "admin123@snapzone" and password "7708554879" to create the admin account.
+                <strong>Admin Login:</strong> Use email "7708554879@gmail.com" and password "7708554879" to access admin portal.
               </p>
             </div>
           )}

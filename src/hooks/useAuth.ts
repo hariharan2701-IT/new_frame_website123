@@ -33,13 +33,8 @@ export const useAuth = () => {
       return
     }
 
-    const { data } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle()
-
-    setIsAdmin(data?.role === 'admin')
+    // Check if user is admin based on email
+    setIsAdmin(user.email === '7708554879@gmail.com')
   }
 
   const signUp = async (email: string, password: string, fullName: string) => {
