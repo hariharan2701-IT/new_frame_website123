@@ -62,6 +62,43 @@ export const useAuth = () => {
   }
 
   const signIn = async (email: string, password: string) => {
+    // Check if this is the admin trying to log in
+    if (email === '7708554879@gmail.com' && password === '7708554879') {
+      // Try to sign in first
+      const signInResult = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      
+      // If sign in fails because user doesn't exist, create the admin user
+      if (signInResult.error && signInResult.error.message.includes('Invalid login credentials')) {
+        console.log('Admin user not found, creating admin account...')
+        const signUpResult = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: '7708854879',
+              role: 'admin'
+            }
+          }
+        })
+        
+        if (signUpResult.error) {
+          return signUpResult
+        }
+        
+        // After creating admin, try to sign in again
+        return await supabase.auth.signInWithPassword({
+          email,
+          password,
+        })
+      }
+      
+      return signInResult
+    }
+    
+    // Regular user sign in
     return await supabase.auth.signInWithPassword({
       email,
       password,
@@ -81,3 +118,4 @@ export const useAuth = () => {
     signOut,
   }
 }
+    return user?.email === '7708554879@gmail.com' || user?.user_metadata?.role === 'admin'
