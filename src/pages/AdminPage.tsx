@@ -183,19 +183,27 @@ export const AdminPage: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-semibold text-gray-900">Products</h2>
-                  <button
-                    onClick={() => setShowAddProduct(true)}
-                    className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors flex items-center space-x-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add Product</span>
-                  </button>
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => setShowAddProduct(true)}
+                      className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 py-3 rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+                    >
+                      <Plus className="w-5 h-5" />
+                      <span className="font-semibold">Add New Frame</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Add Product Form */}
                 {showAddProduct && (
-                  <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Product</h3>
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-8 mb-8 border-2 border-amber-200 shadow-lg">
+                    <div className="flex items-center space-x-3 mb-6">
+                      <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
+                        <Plus className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900">Add New Frame Product</h3>
+                    </div>
+                    <p className="text-gray-600 mb-6">Fill in all the details below to add a new frame to your shop. Make sure to include a high-quality image URL.</p>
                     <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -316,14 +324,14 @@ export const AdminPage: React.FC = () => {
                       <div className="md:col-span-2 flex space-x-4">
                         <button
                           type="submit"
-                          className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
+                          className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg"
                         >
-                          Add Product
+                          ✅ Add Frame to Shop
                         </button>
                         <button
                           type="button"
                           onClick={() => setShowAddProduct(false)}
-                          className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors"
+                          className="bg-gray-300 text-gray-700 px-8 py-4 rounded-xl hover:bg-gray-400 transition-all duration-300 font-semibold"
                         >
                           Cancel
                         </button>
@@ -335,45 +343,62 @@ export const AdminPage: React.FC = () => {
                 {/* Products List */}
                 {products.length === 0 ? (
                   <div className="text-center py-12">
-                    <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No products yet</h3>
-                    <p className="text-gray-600 mb-6">Start by adding your first frame product</p>
-                    <button
-                      onClick={() => setShowAddProduct(true)}
-                      className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
-                    >
-                      Add First Product
-                    </button>
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-12 border-2 border-dashed border-amber-300">
+                      <Package className="w-20 h-20 text-amber-400 mx-auto mb-6" />
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">No Frames Available Yet</h3>
+                      <p className="text-gray-600 mb-8 text-lg">Add your first frame to make it available for customers to purchase</p>
+                      <button
+                        onClick={() => setShowAddProduct(true)}
+                        className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-8 py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold"
+                      >
+                        <Plus className="w-6 h-6" />
+                        <span>Add First Frame Product</span>
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {products.map((product) => (
-                    <div key={product.id} className="bg-white border rounded-lg overflow-hidden">
-                      <img
-                        src={product.image_url}
-                        alt={product.name}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
-                        <div className="space-y-1 text-sm text-gray-600 mb-3">
-                          <p>Size: {product.size}</p>
-                          <p>Finish: {product.material}</p>
-                          <p>Colors: {product.category}</p>
-                          <p>Stock: {product.stock_quantity}</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-lg font-bold text-amber-600">₹{product.price}</span>
-                          <button
-                            onClick={() => handleDeleteProduct(product.id)}
-                            className="text-red-600 hover:text-red-700 p-2"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
+                  <div>
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                      <p className="text-green-800 font-medium">
+                        ✅ You have {products.length} frame(s) available in your shop. Customers can now browse and purchase these frames.
+                      </p>
                     </div>
-                  ))}
+                    <button
+                      onClick={() => setShowAddProduct(true)}
+                      className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-8 py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold mb-6"
+                    >
+                      <Plus className="w-6 h-6" />
+                      <span>Add Another Frame</span>
+                    </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {products.map((product) => (
+                        <div key={product.id} className="bg-white border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                          <img
+                            src={product.image_url}
+                            alt={product.name}
+                            className="w-full h-48 object-cover"
+                          />
+                          <div className="p-4">
+                            <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
+                            <div className="space-y-1 text-sm text-gray-600 mb-3">
+                              <p>Size: {product.size}</p>
+                              <p>Finish: {product.material}</p>
+                              <p>Colors: {product.category}</p>
+                              <p>Stock: {product.stock_quantity}</p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-lg font-bold text-amber-600">₹{product.price}</span>
+                              <button
+                                onClick={() => handleDeleteProduct(product.id)}
+                                className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

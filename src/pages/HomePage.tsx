@@ -128,8 +128,17 @@ export const HomePage: React.FC = () => {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-xl text-gray-600 mb-4">No frames available at the moment</p>
-              <p className="text-gray-500">Please check back later for new arrivals</p>
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-12 border-2 border-dashed border-amber-300 max-w-2xl mx-auto">
+                <Package className="w-20 h-20 text-amber-400 mx-auto mb-6" />
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">No Frames Available Yet</h2>
+                <p className="text-xl text-gray-600 mb-4">Our admin is currently setting up the shop with beautiful frames</p>
+                <p className="text-gray-500 mb-6">Please check back soon for amazing frame collections!</p>
+                <div className="bg-amber-100 border border-amber-300 rounded-lg p-4">
+                  <p className="text-amber-800 font-medium">
+                    📞 For urgent frame needs, contact us at: +91 77085 54879
+                  </p>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
