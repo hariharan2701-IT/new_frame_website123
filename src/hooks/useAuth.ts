@@ -118,4 +118,3 @@ export const useAuth = () => {
     signOut,
   }
 }
-    return user?.email === '7708554879@gmail.com' || user?.user_metadata?.role === 'admin'
