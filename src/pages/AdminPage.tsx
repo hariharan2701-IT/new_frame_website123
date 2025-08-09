@@ -183,15 +183,13 @@ export const AdminPage: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-semibold text-gray-900">Products</h2>
-                  <div className="flex space-x-4">
-                    <button
-                      onClick={() => setShowAddProduct(true)}
-                      className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg font-semibold"
-                    >
-                      <Plus className="w-5 h-5" />
-                      <span>Add Product</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setShowAddProduct(true)}
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 font-semibold text-lg"
+                  >
+                    <Plus className="w-5 h-5" />
+                    <span>Add Product</span>
+                  </button>
                 </div>
 
                 {/* Add Product Form */}
