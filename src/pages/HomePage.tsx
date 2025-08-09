@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Star, Truck, Shield, Headphones, ShoppingCart } from 'lucide-react'
+import { ArrowRight, Star, Truck, Shield, Headphones, ShoppingCart, Package } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
