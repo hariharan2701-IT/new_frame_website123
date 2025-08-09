@@ -186,78 +186,78 @@ export const AdminPage: React.FC = () => {
                   <div className="flex space-x-4">
                     <button
                       onClick={() => setShowAddProduct(true)}
-                      className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 py-3 rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg font-semibold"
                     >
                       <Plus className="w-5 h-5" />
-                      <span className="font-semibold">Add New Frame</span>
+                      <span>Add Product</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Add Product Form */}
                 {showAddProduct && (
-                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-8 mb-8 border-2 border-amber-200 shadow-lg">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 mb-8 border-2 border-blue-200 shadow-lg">
                     <div className="flex items-center space-x-3 mb-6">
-                      <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
                         <Plus className="w-6 h-6 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900">Add New Frame Product</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">Add New Product</h3>
                     </div>
-                    <p className="text-gray-600 mb-6">Fill in all the details below to add a new frame to your shop. Make sure to include a high-quality image URL.</p>
+                    <p className="text-gray-600 mb-6">Fill in all the details below to add a new product to your shop. Make sure to include a high-quality image URL.</p>
                     <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Name *
+                          Product Name *
                         </label>
                         <input
                           type="text"
                           required
                           value={productForm.name}
                           onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                          placeholder="Enter frame name"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Enter product name"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Picture URL *
+                          Product Image URL *
                         </label>
                         <input
                           type="url"
                           required
                           value={productForm.image_url}
                           onChange={(e) => setProductForm({ ...productForm, image_url: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="https://example.com/image.jpg"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Frame Size *
+                          Size *
                         </label>
                         <input
                           type="text"
                           required
                           value={productForm.size}
                           onChange={(e) => setProductForm({ ...productForm, size: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="e.g., 8x10, 11x14, 16x20"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Colors Available *
+                          Category *
                         </label>
                         <input
                           type="text"
                           required
                           value={productForm.category}
                           onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                          placeholder="e.g., Black, White, Brown"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="e.g., Frames, Decorative, Modern"
                         />
                       </div>
 
@@ -272,20 +272,20 @@ export const AdminPage: React.FC = () => {
                           step="0.01"
                           value={productForm.price}
                           onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Enter price in rupees"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Finish Type *
+                          Material *
                         </label>
                         <select
                           required
                           value={productForm.material}
                           onChange={(e) => setProductForm({ ...productForm, material: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
                           <option value="matt">Matt Finish</option>
                           <option value="glassy">Glassy Finish</option>
@@ -302,7 +302,7 @@ export const AdminPage: React.FC = () => {
                           min="0"
                           value={productForm.stock_quantity}
                           onChange={(e) => setProductForm({ ...productForm, stock_quantity: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Enter stock quantity"
                         />
                       </div>
@@ -315,7 +315,7 @@ export const AdminPage: React.FC = () => {
                           required
                           value={productForm.description}
                           onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           rows={3}
                           placeholder="Enter product description"
                         />
@@ -326,7 +326,7 @@ export const AdminPage: React.FC = () => {
                           type="submit"
                           className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg"
                         >
-                          ✅ Add Frame to Shop
+                          ✅ Add Product to Shop
                         </button>
                         <button
                           type="button"
@@ -345,14 +345,14 @@ export const AdminPage: React.FC = () => {
                   <div className="text-center py-12">
                     <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-12 border-2 border-dashed border-amber-300">
                       <Package className="w-20 h-20 text-amber-400 mx-auto mb-6" />
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4">No Frames Available Yet</h3>
-                      <p className="text-gray-600 mb-8 text-lg">Add your first frame to make it available for customers to purchase</p>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">No Products Available Yet</h3>
+                      <p className="text-gray-600 mb-8 text-lg">Add your first product to make it available for customers to purchase</p>
                       <button
                         onClick={() => setShowAddProduct(true)}
-                        className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-8 py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold"
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold"
                       >
                         <Plus className="w-6 h-6" />
-                        <span>Add First Frame Product</span>
+                        <span>Add First Product</span>
                       </button>
                     </div>
                   </div>
@@ -360,15 +360,15 @@ export const AdminPage: React.FC = () => {
                   <div>
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                       <p className="text-green-800 font-medium">
-                        ✅ You have {products.length} frame(s) available in your shop. Customers can now browse and purchase these frames.
+                        ✅ You have {products.length} product(s) available in your shop. Customers can now browse and purchase these products.
                       </p>
                     </div>
                     <button
                       onClick={() => setShowAddProduct(true)}
-                      className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-8 py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold mb-6"
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto shadow-lg text-lg font-semibold mb-6"
                     >
                       <Plus className="w-6 h-6" />
-                      <span>Add Another Frame</span>
+                      <span>Add Product</span>
                     </button>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {products.map((product) => (
@@ -382,8 +382,8 @@ export const AdminPage: React.FC = () => {
                             <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
                             <div className="space-y-1 text-sm text-gray-600 mb-3">
                               <p>Size: {product.size}</p>
-                              <p>Finish: {product.material}</p>
-                              <p>Colors: {product.category}</p>
+                              <p>Material: {product.material}</p>
+                              <p>Category: {product.category}</p>
                               <p>Stock: {product.stock_quantity}</p>
                             </div>
                             <div className="flex justify-between items-center">
