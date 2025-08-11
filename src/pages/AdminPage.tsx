@@ -146,7 +146,7 @@ export const AdminPage: React.FC = () => {
           </div>
           <button
             onClick={() => setShowAddProduct(true)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 font-semibold text-lg"
+            className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 font-semibold text-lg"
           >
             <Plus className="w-5 h-5" />
             <span>Add Product</span>
@@ -279,7 +279,7 @@ export const AdminPage: React.FC = () => {
               <input type="number" placeholder="Stock Quantity" value={productForm.stock_quantity} onChange={(e) => setProductForm({ ...productForm, stock_quantity: e.target.value })} required className="border p-3 rounded" />
               <textarea placeholder="Description" value={productForm.description} onChange={(e) => setProductForm({ ...productForm, description: e.target.value })} required className="border p-3 rounded md:col-span-2" />
               <div className="md:col-span-2 flex justify-end space-x-4 mt-4">
-                <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded">Save</button>
+                <button type="submit" className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors">Save Product</button>
                 <button type="button" onClick={() => setShowAddProduct(false)} className="bg-gray-300 px-6 py-2 rounded">Cancel</button>
               </div>
             </form>

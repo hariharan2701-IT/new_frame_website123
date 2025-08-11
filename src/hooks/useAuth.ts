@@ -64,38 +64,51 @@ export const useAuth = () => {
   const signIn = async (email: string, password: string) => {
     // Check if this is the admin trying to log in
     if (email === '7708554879@gmail.com' && password === '7708554879') {
-      // Try to sign in first
-      const signInResult = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      
-      // If sign in fails because user doesn't exist, create the admin user
-      if (signInResult.error && signInResult.error.message.includes('Invalid login credentials')) {
-        console.log('Admin user not found, creating admin account...')
-        const signUpResult = await supabase.auth.signUp({
+      try {
+        // Try to sign in first
+        const signInResult = await supabase.auth.signInWithPassword({
           email,
           password,
-          options: {
-            data: {
-              full_name: '7708854879',
-              role: 'admin'
-            }
-          }
         })
         
-        if (signUpResult.error) {
-          return signUpResult
+        // If sign in fails because user doesn't exist, create the admin user
+        if (signInResult.error && (
+          signInResult.error.message.includes('Invalid login credentials') ||
+          signInResult.error.message.includes('Email not confirmed')
+        )) {
+          console.log('Admin user not found, creating admin account...')
+          const signUpResult = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                full_name: 'Admin User',
+                role: 'admin'
+              },
+              emailRedirectTo: undefined
+            }
+          })
+          
+          if (signUpResult.error) {
+            console.error('Error creating admin user:', signUpResult.error)
+            return signUpResult
+          }
+          
+          // If user was created successfully, try to sign in again
+          if (signUpResult.data.user) {
+            console.log('Admin user created, attempting sign in...')
+            return await supabase.auth.signInWithPassword({
+              email,
+              password,
+            })
+          }
         }
         
-        // After creating admin, try to sign in again
-        return await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
+        return signInResult
+      } catch (error) {
+        console.error('Admin login error:', error)
+        return { data: { user: null, session: null }, error }
       }
-      
-      return signInResult
     }
     
     // Regular user sign in
