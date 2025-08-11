@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingCart, User, Menu, X, Search } from 'lucide-react'
+import { ShoppingCart, User, Menu, X, Search, Plus } from 'lucide-react'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 
@@ -45,6 +45,16 @@ export const Header: React.FC = () => {
 
           {/* Desktop Right Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 font-semibold"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Product</span>
+              </Link>
+            )}
+            
             <button className="p-2 text-gray-700 hover:text-amber-600 transition-colors">
               <Search className="w-5 h-5" />
             </button>
@@ -152,10 +162,11 @@ export const Header: React.FC = () => {
                 ) : (
                   <Link
                     to="/login"
-                    className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 font-semibold"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Sign In
+                    <Plus className="w-4 h-4" />
+                    <span>Add Product</span>
                   </Link>
                 )}
               </div>
