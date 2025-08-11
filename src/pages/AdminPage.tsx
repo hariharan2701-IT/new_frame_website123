@@ -21,6 +21,7 @@ export const AdminPage: React.FC = () => {
     name: '',
     description: '',
     price: '',
+    image_file: null as File | null,
     image_url: '',
     size: '',
     category: '',
@@ -43,6 +44,19 @@ export const AdminPage: React.FC = () => {
     fetchProducts()
     fetchOrders()
   }, [user, navigate])
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setProductForm({ ...productForm, image_file: file })
+      // Create preview URL
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setProductForm(prev => ({ ...prev, image_url: e.target?.result as string }))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const fetchProducts = async () => {
     try {
@@ -74,6 +88,17 @@ export const AdminPage: React.FC = () => {
 
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    let imageUrl = productForm.image_url
+    
+    // If a file was uploaded, we'll use the preview URL for now
+    // In a real app, you'd upload to a storage service like Supabase Storage
+    if (productForm.image_file) {
+      // For demo purposes, we'll use the data URL
+      // In production, upload to Supabase Storage and get the public URL
+      imageUrl = productForm.image_url
+    }
+    
     try {
       const { error } = await supabase
         .from('products')
@@ -81,7 +106,7 @@ export const AdminPage: React.FC = () => {
           name: productForm.name,
           description: productForm.description,
           price: parseFloat(productForm.price),
-          image_url: productForm.image_url,
+          image_url: imageUrl,
           size: productForm.size,
           category: productForm.category,
           material: productForm.material,
@@ -96,6 +121,7 @@ export const AdminPage: React.FC = () => {
         name: '',
         description: '',
         price: '',
+        image_file: null,
         image_url: '',
         size: '',
         category: '',
@@ -263,24 +289,199 @@ export const AdminPage: React.FC = () => {
 
       {/* Add Product Modal */}
       {showAddProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-2xl w-full">
-            <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
-            <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Product Name" value={productForm.name} onChange={(e) => setProductForm({ ...productForm, name: e.target.value })} required className="border p-3 rounded" />
-              <input type="url" placeholder="Image URL" value={productForm.image_url} onChange={(e) => setProductForm({ ...productForm, image_url: e.target.value })} required className="border p-3 rounded" />
-              <input type="text" placeholder="Size" value={productForm.size} onChange={(e) => setProductForm({ ...productForm, size: e.target.value })} required className="border p-3 rounded" />
-              <input type="text" placeholder="Category" value={productForm.category} onChange={(e) => setProductForm({ ...productForm, category: e.target.value })} required className="border p-3 rounded" />
-              <input type="number" placeholder="Price (₹)" value={productForm.price} onChange={(e) => setProductForm({ ...productForm, price: e.target.value })} required className="border p-3 rounded" />
-              <select value={productForm.material} onChange={(e) => setProductForm({ ...productForm, material: e.target.value })} required className="border p-3 rounded">
-                <option value="matt">Matt Finish</option>
-                <option value="glassy">Glassy Finish</option>
-              </select>
-              <input type="number" placeholder="Stock Quantity" value={productForm.stock_quantity} onChange={(e) => setProductForm({ ...productForm, stock_quantity: e.target.value })} required className="border p-3 rounded" />
-              <textarea placeholder="Description" value={productForm.description} onChange={(e) => setProductForm({ ...productForm, description: e.target.value })} required className="border p-3 rounded md:col-span-2" />
-              <div className="md:col-span-2 flex justify-end space-x-4 mt-4">
-                <button type="submit" className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors">Save Product</button>
-                <button type="button" onClick={() => setShowAddProduct(false)} className="bg-gray-300 px-6 py-2 rounded">Cancel</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Add New Frame</h2>
+              <button
+                onClick={() => setShowAddProduct(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <form onSubmit={handleAddProduct} className="space-y-6">
+              {/* Frame Image Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Frame Image *
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-amber-400 transition-colors">
+                  {productForm.image_url ? (
+                    <div className="space-y-4">
+                      <img
+                        src={productForm.image_url}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded-lg mx-auto"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setProductForm({ ...productForm, image_file: null, image_url: '' })}
+                        className="text-red-600 hover:text-red-700 text-sm"
+                      >
+                        Remove Image
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-600 mb-2">Upload frame image</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                        required
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 cursor-pointer inline-block transition-colors"
+                      >
+                        Choose Image
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Frame Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Frame Name *
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Premium Photo Frame"
+                    value={productForm.name}
+                    onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                    required
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Frame Size */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Frame Size *
+                  </label>
+                  <select
+                    value={productForm.size}
+                    onChange={(e) => setProductForm({ ...productForm, size: e.target.value })}
+                    required
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    <option value="">Select Size</option>
+                    <option value="4x6">4x6 inches</option>
+                    <option value="5x7">5x7 inches</option>
+                    <option value="8x10">8x10 inches</option>
+                    <option value="8x12">8x12 inches</option>
+                    <option value="11x14">11x14 inches</option>
+                    <option value="12x18">12x18 inches</option>
+                    <option value="16x20">16x20 inches</option>
+                    <option value="18x24">18x24 inches</option>
+                  </select>
+                </div>
+
+                {/* Frame Rate */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Frame Rate (₹) *
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                    <input
+                      type="number"
+                      placeholder="299"
+                      value={productForm.price}
+                      onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
+                      required
+                      min="1"
+                      className="w-full border border-gray-300 p-3 pl-8 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                {/* Frame Finish */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Frame Finish *
+                  </label>
+                  <select
+                    value={productForm.material}
+                    onChange={(e) => setProductForm({ ...productForm, material: e.target.value })}
+                    required
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    <option value="matt">Matt Finish</option>
+                    <option value="glassy">Glassy Finish</option>
+                  </select>
+                </div>
+
+                {/* Stock Quantity */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Stock Quantity *
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="10"
+                    value={productForm.stock_quantity}
+                    onChange={(e) => setProductForm({ ...productForm, stock_quantity: e.target.value })}
+                    required
+                    min="0"
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Frame Colors/Category *
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Black, White, Brown"
+                    value={productForm.category}
+                    onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                    required
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Frame Description *
+                </label>
+                <textarea
+                  placeholder="Describe the frame features, quality, and any special details..."
+                  value={productForm.description}
+                  onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                  required
+                  rows={3}
+                  className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-4 pt-6 border-t">
+                <button
+                  type="button"
+                  onClick={() => setShowAddProduct(false)}
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors font-semibold"
+                >
+                  Save Product
+                </button>
               </div>
             </form>
           </div>
